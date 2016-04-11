@@ -1,0 +1,14 @@
+// hello.cpp
+#include <iostream>
+using namespace std;
+ 
+int main() {
+   cout << "Hello, world!" << endl;
+   return 0;
+}
+
+static void test()
+{
+    cout << "this is a " << endl;
+    cout << "test";
+}
