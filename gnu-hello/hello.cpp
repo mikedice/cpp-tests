@@ -5,6 +5,7 @@ static void test();
 
 int main() {
    cout << "Hello, world!" << endl;
+   cout << "Monkey" << endl;
    test();
    return 0;
 }
