@@ -58,7 +58,7 @@ $(LINK_TARGET) : $(OBJS)
 # $@ for the pattern-matched target
 # $< for the pattern-matched dependency
 %.o : %.cpp
-	g++ -g -o $@ -c $<
+	g++ -g -I/home/pi/code/boost_1_60_0 ls-o $@ -c $<
 	
 targ : %.cpp
 	this
