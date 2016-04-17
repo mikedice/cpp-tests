@@ -3,31 +3,33 @@
 #include <stdlib.h>
 #include <string.h>
 
-void StartEnumerateDirs(char* dir);
-void EnumerateDirs(DIR *pDir, char* path);
+void EnumerateDirs(char* path);
 int AreEqual(char* str1, char* str2);
 
-int main(void)
+int main(int argc, char* argv[])
 {
-    StartEnumerateDirs("/home/pi/code/c++");
+    if (argc > 1)
+    {
+        printf("%s\n", argv[1]);
+        EnumerateDirs(argv[1]);
+    }
+    else
+    {
+        printf("Usage: dirlist.exe <path>\n");        
+    }
     return 0;
 }
 
-void StartEnumerateDirs(char *path)
+void EnumerateDirs(char *path)
 {
-    DIR *d;
+    DIR *pDir;
     struct dirent *dir;
-    d = opendir(path);
-    if (d)
+    pDir = opendir(path);
+    if (pDir == NULL)
     {
-        EnumerateDirs(d, path);
-        closedir(d);
-    }   
-}
-
-void EnumerateDirs(DIR *pDir, char *path)
-{
-    struct dirent *dir;
+        return;
+    }
+    
     while ((dir =readdir(pDir)) != NULL)
     {
         if (AreEqual(dir->d_name, ".") ||
@@ -45,14 +47,12 @@ void EnumerateDirs(DIR *pDir, char *path)
             printf("%s/%s\n",path, dir->d_name);
             char *nextDirPath = (char*)malloc(strlen(path) + 1 + strlen(dir->d_name) + 1);
             sprintf(nextDirPath, "%s/%s", path, dir->d_name);
-            DIR* next = opendir(nextDirPath);
-            EnumerateDirs(next, nextDirPath);
+            EnumerateDirs(nextDirPath);
             free(nextDirPath);
-            closedir(next);
         }
     }
-
     
+    closedir(pDir);  
 }
 
 int AreEqual(char* str1, char* str2)
