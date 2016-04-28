@@ -1,0 +1,40 @@
+LINK_TARGET=meta.exe
+
+OBJS =  \
+    meta.o \
+
+INCLUDEPATHS = \
+    -I/usr/local/include
+
+LIBPATHS = \
+     -L/usr/local/lib \
+     -L/opt/local/lib
+
+LIBS = \
+      -lavutil \
+      -lavformat \
+      -lavresample \
+      -lavcodec \
+      -lmp3lame \
+      -lbz2 \
+      -lz
+
+ REBUILDABLES = $(OBJS) $(LINK_TARGET)
+
+all : $(LINK_TARGET)
+	echo all done
+
+clean :
+	rm $(LINK_TARGET)
+    
+$(LINK_TARGET) : $(OBJS)
+	gcc \
+    $(LIBPATHS) \
+    $(LIBS) \
+    -v -g -o $@ $^ 
+
+
+%.o : %.c
+	gcc -g -o $@ \
+    $(INCLUDEPATHS) \
+    -c -v $<
