@@ -1,0 +1,43 @@
+LINK_TARGET=avplay.exe
+
+OBJS =  \
+    loopwavequeue.o \
+
+INCLUDEPATHS = \
+    -I/usr/local/include \
+    -I/Users/mikedice/code/c++/libav/libav-11.6 \
+    -I/usr/local/include/SDL2
+
+LIBPATHS = \
+     -L/usr/local/lib \
+     -L/opt/local/lib
+
+LIBS = \
+      -lavutil \
+      -lavformat \
+      -lavresample \
+      -lavcodec \
+      -lmp3lame \
+      -lbz2 \
+      -lz \
+      -lSDL2
+
+ REBUILDABLES = $(OBJS) $(LINK_TARGET)
+
+all : $(LINK_TARGET)
+	echo all done
+
+clean :
+	rm $(LINK_TARGET)
+    
+$(LINK_TARGET) : $(OBJS)
+	gcc \
+    $(LIBPATHS) \
+    $(LIBS) \
+    -v -g -o $@ $^ 
+
+
+%.o : %.c
+	gcc -g -o $@ \
+    $(INCLUDEPATHS) \
+    -c -v $<
